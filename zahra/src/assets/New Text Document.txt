@@ -1,0 +1,95 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract ZenArt {
+    uint public constant registrationFee = 1 ether; // 1 ZTC روی زنچین
+
+    struct Artwork {
+        uint id;
+        string title;
+        string artist;
+        string nftUrl; // لینک کامل صفحه NFT در OmniHub
+        uint likes;
+    }
+
+    mapping(uint => Artwork) public artworks;
+    uint public artworkCount;
+
+    mapping(uint => mapping(address => bool)) public likedBy;
+
+    event ArtworkRegistered(uint indexed id, string title, string artist, string nftUrl);
+    event ArtworkLiked(uint indexed id, uint totalLikes);
+
+    modifier onlyOmniHub(string memory url) {
+        require(startsWith(url, "https://omnirepo.omnihub.io/"), "Only OmniHub NFT links allowed");
+        _;
+    }
+
+    // ثبت یک اثر هنری جدید با پرداخت فی
+    function registerArtwork(
+        string memory _title,
+        string memory _artist,
+        string memory _nftUrl
+    ) public payable onlyOmniHub(_nftUrl) {
+        require(msg.value >= registrationFee, "Insufficient fee");
+
+        artworks[artworkCount] = Artwork({
+            id: artworkCount,
+            title: _title,
+            artist: _artist,
+            nftUrl: _nftUrl,
+            likes: 0
+        });
+
+        emit ArtworkRegistered(artworkCount, _title, _artist, _nftUrl);
+        artworkCount++;
+    }
+
+    // لایک کردن یک اثر هنری
+    function likeArtwork(uint _id) public {
+        require(_id < artworkCount, "Artwork does not exist");
+        require(!likedBy[_id][msg.sender], "Already liked");
+
+        likedBy[_id][msg.sender] = true;
+        artworks[_id].likes++;
+
+        emit ArtworkLiked(_id, artworks[_id].likes);
+    }
+
+    // دریافت تعداد کل آثار
+    function getArtworkCount() public view returns (uint) {
+        return artworkCount;
+    }
+
+    // دریافت اطلاعات یک اثر هنری
+    function getArtwork(uint _id) public view returns (
+        uint id,
+        string memory title,
+        string memory artist,
+        string memory nftUrl,
+        uint likes
+    ) {
+        require(_id < artworkCount, "Artwork does not exist");
+        Artwork memory art = artworks[_id];
+        return (art.id, art.title, art.artist, art.nftUrl, art.likes);
+    }
+
+    // تابع داخلی برای بررسی پیشوند رشته
+    function startsWith(string memory str, string memory prefix) internal pure returns (bool) {
+        bytes memory strBytes = bytes(str);
+        bytes memory prefixBytes = bytes(prefix);
+        if (strBytes.length < prefixBytes.length) {
+            return false;
+        }
+        for (uint i = 0; i < prefixBytes.length; i++) {
+            if (strBytes[i] != prefixBytes[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+       function getRegistrationFeeLabel() public pure returns (string memory) {
+       return "1 ZTC";
+   }
+
+}

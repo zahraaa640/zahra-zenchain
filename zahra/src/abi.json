@@ -1,0 +1,106 @@
+{
+  "address": "0xA8d707d470C5818894c4bF9C51be2CfBa73fB8FB",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" },
+        { "indexed": false, "internalType": "uint256", "name": "newLikes", "type": "uint256" },
+        { "indexed": true, "internalType": "address", "name": "liker", "type": "address" }
+      ],
+      "name": "ArtworkLiked",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        { "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" },
+        { "indexed": false, "internalType": "string", "name": "title", "type": "string" },
+        { "indexed": false, "internalType": "string", "name": "artist", "type": "string" },
+        { "indexed": false, "internalType": "string", "name": "nftUrl", "type": "string" },
+        { "indexed": true, "internalType": "address", "name": "owner", "type": "address" }
+      ],
+      "name": "ArtworkRegistered",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "", "type": "uint256" }
+      ],
+      "name": "artworks",
+      "outputs": [
+        { "internalType": "uint256", "name": "id", "type": "uint256" },
+        { "internalType": "string", "name": "title", "type": "string" },
+        { "internalType": "string", "name": "artist", "type": "string" },
+        { "internalType": "string", "name": "nftUrl", "type": "string" },
+        { "internalType": "uint256", "name": "likes", "type": "uint256" },
+        { "internalType": "address", "name": "owner", "type": "address" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getArtworkCount",
+      "outputs": [
+        { "internalType": "uint256", "name": "", "type": "uint256" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "_id", "type": "uint256" }
+      ],
+      "name": "likeArtwork",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "likeFee",
+      "outputs": [
+        { "internalType": "uint256", "name": "", "type": "uint256" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "string", "name": "_title", "type": "string" },
+        { "internalType": "string", "name": "_artist", "type": "string" },
+        { "internalType": "string", "name": "_nftUrl", "type": "string" }
+      ],
+      "name": "registerArtwork",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "registrationFee",
+      "outputs": [
+        { "internalType": "uint256", "name": "", "type": "uint256" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        { "internalType": "address", "name": "", "type": "address" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}
